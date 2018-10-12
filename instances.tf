@@ -10,13 +10,13 @@ data "aws_ami" "centos7" {
 */
 
 resource "aws_instance" "masters" {
-    count = 1
+    count = 2
     #ami = "${data.aws_ami.centos7.image_id}"
     ami = "ami-3ecc8f46"
     instance_type = "t2.micro"
     key_name = "rjethani-kce-core"
-    subnet_id = "${aws_subnet.master_subnet.id}"
-    vpc_security_group_ids = ["${aws_security_group.master_sg.id}"]
+    subnet_id = "${aws_subnet.public-sn.id}"
+    vpc_security_group_ids = ["${aws_security_group.masters-sg.id}"]
     tags {
         Name = "${format("master-%d", count.index)}"
     }
