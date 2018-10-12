@@ -1,4 +1,4 @@
-resource "aws_vpc" "cluster-vpc" {
+resource "aws_vpc" "cluster_vpc" {
     cidr_block = "172.16.0.0/16"
 
     enable_dns_support = true
@@ -8,8 +8,8 @@ resource "aws_vpc" "cluster-vpc" {
     }
 }
 
-resource "aws_subnet" "cluster-subnet" {
-    vpc_id = "${aws_vpc.cluster-vpc.id}"
+resource "aws_subnet" "master_subnet" {
+    vpc_id = "${aws_vpc.cluster_vpc.id}"
     cidr_block = "172.16.10.0/24"
     map_public_ip_on_launch = true
     tags {

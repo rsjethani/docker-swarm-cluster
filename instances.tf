@@ -15,8 +15,8 @@ resource "aws_instance" "masters" {
     ami = "ami-3ecc8f46"
     instance_type = "t2.micro"
     key_name = "rjethani-kce-core"
-    subnet_id = "${aws_subnet.cluster-subnet.id}"
-    #vpc_security_group_ids = ["sg-42edd733"]
+    subnet_id = "${aws_subnet.master_subnet.id}"
+    vpc_security_group_ids = ["${aws_security_group.master_sg.id}"]
     tags {
         Name = "${format("master-%d", count.index)}"
     }
