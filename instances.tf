@@ -10,7 +10,7 @@ data "aws_ami" "centos7" {
 */
 
 resource "aws_instance" "bastion" {
-    count = 1
+    count = 0
     #ami = "${data.aws_ami.centos7.image_id}"
     ami = "ami-3ecc8f46"
     instance_type = "t2.micro"
@@ -28,8 +28,8 @@ resource "aws_instance" "managers" {
     ami = "ami-3ecc8f46"
     instance_type = "t2.micro"
     key_name = "rjethani-kce-core"
-    subnet_id = "${module.networking.private_subnet_id}"
-    vpc_security_group_ids = ["${module.networking.swarm_nodes_sg_id}"]
+    subnet_id = "${module.networking.public_subnet_id}"
+    vpc_security_group_ids = ["${module.networking.ssh_for_all_id}"]
     tags {
         Name = "${format("manager-%d", count.index + 1)}"
     }

@@ -50,6 +50,34 @@ resource "aws_security_group" "swarm_nodes_sg" {
     }
 
     ingress {
+        from_port = 2377
+        to_port = 2377
+        protocol = "tcp"
+        cidr_blocks = ["${aws_subnet.public_subnet.cidr_block}"]
+    }
+
+    ingress {
+        from_port = 7946
+        to_port = 7946
+        protocol = "tcp"
+        cidr_blocks = ["${aws_subnet.public_subnet.cidr_block}"]
+    }
+
+    ingress {
+        from_port = 7946
+        to_port = 7946
+        protocol = "udp"
+        cidr_blocks = ["${aws_subnet.public_subnet.cidr_block}"]
+    }
+
+    ingress {
+        from_port = 4789
+        to_port = 4789
+        protocol = "udp"
+        cidr_blocks = ["${aws_subnet.public_subnet.cidr_block}"]
+    }
+
+    ingress {
         from_port = 0
         to_port = 0
         protocol = -1
