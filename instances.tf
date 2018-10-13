@@ -9,7 +9,7 @@ data "aws_ami" "centos7" {
 }
 */
 
-resource "aws_instance" "managers" {
+resource "aws_instance" "bastion" {
     count = 1
     #ami = "${data.aws_ami.centos7.image_id}"
     ami = "ami-3ecc8f46"
@@ -18,7 +18,33 @@ resource "aws_instance" "managers" {
     subnet_id = "${module.networking.public_subnet_id}"
     vpc_security_group_ids = ["${module.networking.ssh_for_all_id}"]
     tags {
-        Name = "${format("master-%d", count.index)}"
+        Name = "${var.cluster_name}-bastion"
+    }
+}
+
+resource "aws_instance" "managers" {
+    count = "${var.manager_count}"
+    #ami = "${data.aws_ami.centos7.image_id}"
+    ami = "ami-3ecc8f46"
+    instance_type = "t2.micro"
+    key_name = "rjethani-kce-core"
+    subnet_id = "${module.networking.private_subnet_id}"
+    vpc_security_group_ids = ["${module.networking.swarm_nodes_sg_id}"]
+    tags {
+        Name = "${format("manager-%d", count.index + 1)}"
+    }
+}
+
+resource "aws_instance" "workers" {
+    count = "${var.worker_count}"
+    #ami = "${data.aws_ami.centos7.image_id}"
+    ami = "ami-3ecc8f46"
+    instance_type = "t2.micro"
+    key_name = "rjethani-kce-core"
+    subnet_id = "${module.networking.private_subnet_id}"
+    vpc_security_group_ids = ["${module.networking.swarm_nodes_sg_id}"]
+    tags {
+        Name = "${format("worker-%d", count.index + 1)}"
     }
 }
 

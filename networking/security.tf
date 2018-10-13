@@ -31,3 +31,33 @@ resource "aws_security_group" "ssh_for_all" {
     }
 }
 
+resource "aws_security_group" "swarm_nodes_sg" {
+    name = "swarm_nodes_sg"
+    vpc_id = "${aws_vpc.cluster_vpc.id}"
+    
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["${local.all_ips}"]
+    }
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["${aws_subnet.public_subnet.cidr_block}"]
+    }
+
+    ingress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["${aws_subnet.private_subnet.cidr_block}"]
+    }
+
+    tags {
+        Name = "${var.cluster_name}"
+    }
+}
+

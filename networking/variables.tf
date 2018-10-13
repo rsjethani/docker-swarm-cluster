@@ -7,6 +7,11 @@ variable "cluster_name" {
 variable "vpc_cidr" {
     default = "192.168.0.0/16"
 }
+
 variable "public_subnet_cidr" {
-    default = "192.168.56.0/27"
+    default = "192.168.56.0/28"
+}
+
+variable "private_subnet_cidr" {
+    default = "192.168.66.0/24"
 }

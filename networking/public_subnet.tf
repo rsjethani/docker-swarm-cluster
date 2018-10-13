@@ -27,6 +27,14 @@ resource "aws_subnet" "public_subnet" {
     }
 }
 
+resource "aws_subnet" "private_subnet" {
+    vpc_id = "${aws_vpc.cluster_vpc.id}"
+    cidr_block = "${var.private_subnet_cidr}"
+    tags {
+        Name = "${var.cluster_name}"
+    }
+}
+
 resource "aws_route_table_association" "public_rta" {
   subnet_id      = "${aws_subnet.public_subnet.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
