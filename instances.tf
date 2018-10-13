@@ -9,7 +9,7 @@ data "aws_ami" "centos7" {
 }
 */
 
-resource "aws_instance" "masters" {
+resource "aws_instance" "managers" {
     count = 1
     #ami = "${data.aws_ami.centos7.image_id}"
     ami = "ami-3ecc8f46"
