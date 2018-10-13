@@ -1,14 +1,13 @@
 resource "aws_default_security_group" "default" {
-  vpc_id = "${aws_vpc.cluster-vpc.id}"
-
-  tags {
-      Name = "${var.cluster_name}-default-sg"
-  }
+    vpc_id = "${aws_vpc.cluster_vpc.id}"
+    tags {
+        Name = "${var.cluster_name}"
+    }
 }
 
-resource "aws_security_group" "masters-sg" {
-    name = "${var.cluster_name}_masters-sg"
-    vpc_id = "${aws_vpc.cluster-vpc.id}"
+resource "aws_security_group" "ssh_for_all" {
+    name = "ssh_for_all"
+    vpc_id = "${aws_vpc.cluster_vpc.id}"
     
     egress {
       from_port = 0
@@ -25,6 +24,7 @@ resource "aws_security_group" "masters-sg" {
     }
 
     tags {
-        Name = "${var.cluster_name}_masters-sg"
+        Name = "${var.cluster_name}"
     }
 }
+

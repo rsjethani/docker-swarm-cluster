@@ -4,3 +4,8 @@ provider "aws" {
   region = "us-west-2"
 }
 
+module networking {
+    source = "./networking"
+
+    cluster_name = "${var.cluster_name}"
+}
