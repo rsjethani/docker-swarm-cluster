@@ -1,6 +1,7 @@
 locals {
     all_ips = "0.0.0.0/0"
 }
+
 resource "aws_default_security_group" "default" {
     vpc_id = "${aws_vpc.cluster_vpc.id}"
     tags {
@@ -22,6 +23,13 @@ resource "aws_security_group" "ssh_for_all" {
     ingress {
         from_port = 22
         to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["${local.all_ips}"]
+    }
+
+    ingress {
+        from_port = 3000
+        to_port = 4000
         protocol = "tcp"
         cidr_blocks = ["${local.all_ips}"]
     }
